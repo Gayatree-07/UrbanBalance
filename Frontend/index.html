@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102b24">
+  <title>UrbanBalance — See the consequences before you build</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="UrbanBalance home">
+        <span class="brand-mark">U<span>B</span></span>
+        <span class="brand-name">urban<span>balance</span></span>
+      </a>
+      <div class="topbar-right">
+        <span class="status-dot"></span><span class="status-label">SCENARIO LAB</span>
+        <span class="top-divider"></span>
+        <span class="version">MODEL v1.0</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="eyebrow-line"></span> A CITY PLANNING SIMULATOR</p>
+          <h1>Every decision<br>leaves a <em>footprint.</em></h1>
+          <p class="hero-subtitle">Explore how development choices can change heat, water, and shade—before you build.</p>
+        </div>
+        <div class="hero-note">
+          <span class="note-icon">↗</span>
+          <p><strong>Explore, don't predict.</strong><br>This is a transparent scenario model, not a professional engineering forecast.</p>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <div class="city-panel panel">
+          <div class="panel-heading">
+            <div>
+              <p class="section-kicker">YOUR CITY BLOCK</p>
+              <h2>Change the neighborhood</h2>
+            </div>
+            <div class="scenario-toggle" role="group" aria-label="Environmental scenario">
+              <button class="scenario-btn active" data-scenario="clear" type="button">☀ Heatwave</button>
+              <button class="scenario-btn" data-scenario="rain" type="button">☂ Heavy rain</button>
+            </div>
+          </div>
+
+          <div class="city-scene" id="cityScene" data-weather="clear">
+            <div class="scene-sky">
+              <span class="sun" aria-hidden="true"></span>
+              <span class="cloud cloud-one" aria-hidden="true"></span>
+              <span class="cloud cloud-two" aria-hidden="true"></span>
+              <span class="scene-label" id="sceneLabel">HEATWAVE SCENARIO</span>
+            </div>
+            <div class="city-art" id="cityArt">
+              <div class="heat-haze haze-one"></div><div class="heat-haze haze-two"></div>
+              <div class="park">
+                <span class="park-label">COMMUNITY GREEN</span>
+                <span class="shrub shrub-one"></span><span class="shrub shrub-two"></span>
+              </div>
+              <button class="tree tree-a preserved" data-tree="tree_a" type="button" aria-label="Toggle Tree A">
+                <span class="tree-canopy">♣</span><span class="tree-trunk"></span><span class="tree-tag">A</span>
+              </button>
+              <button class="tree tree-b preserved" data-tree="tree_b" type="button" aria-label="Toggle Tree B">
+                <span class="tree-canopy">♣</span><span class="tree-trunk"></span><span class="tree-tag">B</span>
+              </button>
+              <button class="tree tree-c preserved" data-tree="tree_c" type="button" aria-label="Toggle Tree C">
+                <span class="tree-canopy">♣</span><span class="tree-trunk"></span><span class="tree-tag">C</span>
+              </button>
+              <div class="building building-one"><span>RESIDENTIAL</span><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="building building-two"><span>COMMUNITY</span><i></i><i></i><i></i><i></i></div>
+              <div class="proposed-building" id="proposedBuilding"><span>PROPOSED<br>DEVELOPMENT</span><div class="building-windows"></div></div>
+              <div class="road road-horizontal"><span>NEIGHBORHOOD ROAD</span></div>
+              <div class="road road-vertical"></div>
+              <div class="drain" aria-label="Drainage channel"><span></span><span></span><span></span></div>
+              <div class="rain-garden-visual" id="rainGardenVisual"><span>RAIN<br>GARDEN</span></div>
+              <div class="pavement-visual" id="pavementVisual"></div>
+              <div class="shade-visual" id="shadeVisual"></div>
+              <div class="water-overlay" id="waterOverlay"></div>
+            </div>
+            <div class="scene-legend">
+              <span><i class="legend-tree"></i> Tree</span>
+              <span><i class="legend-building"></i> Existing building</span>
+              <span><i class="legend-proposed"></i> Proposed development</span>
+            </div>
+          </div>
+          <div class="scene-footer">
+            <div><span class="live-dot"></span><span id="sceneStatus">All three trees preserved</span></div>
+            <button class="text-button" id="resetBtn" type="button">Reset scenario ↺</button>
+          </div>
+      
+  <section class="strategy-comparison" id="strategyComparison">
+  <div class="strategy-heading">
+    <div>
+      <p class="section-kicker">EXPLORE THE TRADE-OFFS</p>
+      <h2>Compare strategies</h2>
+      <p class="strategy-description">
+        Compare your design with alternative approaches to neighbourhood development.
+      </p>
+    </div>
+  </div>
+
+  <div class="strategy-save">
+    <div>
+      <h3>Your current design</h3>
+      <p>Save your choices as a strategy to compare later.</p>
+    </div>
+    <div class="strategy-save-controls">
+      <input
+        id="strategyName"
+        type="text"
+        maxlength="40"
+        placeholder="e.g. My balanced design"
+        aria-label="Name your strategy"
+      />
+      <button id="saveStrategyBtn" type="button">
+        Save design
+      </button>
+    </div>
+    <p id="strategySaveStatus" class="strategy-status" aria-live="polite">
+      No design saved yet.
+    </p>
+  </div>
+
+  <div class="strategy-grid" id="strategyGrid">
+    <article class="strategy-card">
+      <p class="section-kicker">YOUR DESIGN</p>
+      <h3 id="savedStrategyTitle">Not saved yet</h3>
+      <p id="savedStrategyDescription">
+        Save your current design to see its results here.
+      </p>
+      <div id="savedStrategyMetrics" class="strategy-metrics">
+        <p>Run a simulation and save your design to begin.</p>
+      </div>
+    </article>
+
+    <article class="strategy-card">
+      <p class="section-kicker">PRESET 01</p>
+      <h3>Development-first</h3>
+      <p>
+        Prioritises development capacity while keeping adaptation spending within budget.
+      </p>
+      <div id="developmentFirstMetrics" class="strategy-metrics">
+        <p>Comparison results will appear here.</p>
+      </div>
+    </article>
+
+    <article class="strategy-card">
+      <p class="section-kicker">PRESET 02</p>
+      <h3>Climate-resilience-first</h3>
+      <p>
+        Prioritises trees, shade, and stormwater management while retaining development.
+      </p>
+      <div id="resilienceFirstMetrics" class="strategy-metrics">
+        <p>Comparison results will appear here.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+        </div>
+
+        <aside class="controls-panel panel">
+          <div class="panel-heading compact-heading">
+            <div>
+              <p class="section-kicker">YOUR DECISIONS</p>
+              <h2>Choose a strategy</h2>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <div class="control-label-row"><label>1. Development scale</label></div>
+            <div class="development-options" role="group" aria-label="Development scale">
+              <button class="development-option" data-development="compact" type="button">
+                <span class="option-icon">▰</span><strong>Compact</strong><small>65 capacity</small>
+              </button>
+              <button class="development-option active" data-development="balanced" type="button">
+                <span class="option-icon">▰▰</span><strong>Balanced</strong><small>80 capacity</small>
+              </button>
+              <button class="development-option" data-development="expanded" type="button">
+                <span class="option-icon">▰▰▰</span><strong>Expanded</strong><small>95 capacity</small>
+              </button>
+            </div>
+          </div>
+
+          <div class="control-group tree-control">
+            <div class="control-label-row"><label>2. Keep existing trees</label></div>
+            <div class="tree-choices">
+              <label class="tree-choice"><input type="checkbox" data-tree-check="tree_a" checked><span class="tree-mini">A</span><span><strong>Tree A</strong><small>350 m² shade</small></span><span class="checkmark"></span></label>
+              <label class="tree-choice"><input type="checkbox" data-tree-check="tree_b" checked><span class="tree-mini important">B</span><span><strong>Tree B</strong><small>500 m² shade</small></span><span class="checkmark"></span></label>
+              <label class="tree-choice"><input type="checkbox" data-tree-check="tree_c" checked><span class="tree-mini">C</span><span><strong>Tree C</strong><small>250 m² shade</small></span><span class="checkmark"></span></label>
+            </div>
+          </div>
+
+          <div class="control-group adaptation-group">
+            <div class="control-label-row"><label>3. Add adaptations</label></div>
+            <div class="adaptation-list">
+              <label class="adaptation-choice">
+                <input type="checkbox" data-intervention="rain_garden">
+                <span class="adaptation-icon blue">≈</span>
+                <span class="adaptation-copy"><strong>Rain garden</strong><small>Captures stormwater</small></span>
+                <span class="adaptation-cost">₹2.0L</span><span class="checkmark"></span>
+              </label>
+              <label class="adaptation-choice">
+                <input type="checkbox" data-intervention="permeable_pavement">
+                <span class="adaptation-icon teal">▦</span>
+                <span class="adaptation-copy"><strong>Permeable pavement</strong><small>Lets water soak through</small></span>
+                <span class="adaptation-cost">₹2.5L</span><span class="checkmark"></span>
+              </label>
+              <label class="adaptation-choice">
+                <input type="checkbox" data-intervention="shade_infrastructure">
+                <span class="adaptation-icon gold">☂</span>
+                <span class="adaptation-copy"><strong>Shade infrastructure</strong><small>Creates more shaded space</small></span>
+                <span class="adaptation-cost">₹1.5L</span><span class="checkmark"></span>
+              </label>
+              <label class="adaptation-choice">
+                <input type="checkbox" data-intervention="building_redesign">
+                <span class="adaptation-icon violet">⌂</span>
+                <span class="adaptation-copy"><strong>Building redesign</strong><small>Reduces paved footprint</small></span>
+                <span class="adaptation-cost">₹1.0L</span><span class="checkmark"></span>
+              </label>
+            </div>
+            <div
+              class="adaptation-feedback"
+              id="adaptationFeedback"
+              aria-live="polite"
+            >
+              <strong>Your adaptation strategy</strong>
+              <p>Select an adaptation to see its purpose and cost here.</p>
+            </div>
+          </div>
+
+          <div class="budget-block">
+            <div class="budget-top"><span>Adaptation budget</span><strong id="budgetRemaining">₹10,00,000 left</strong></div>
+            <div class="budget-track"><span id="budgetBar"></span></div>
+            <div class="budget-bottom"><span id="budgetSpent">₹0 spent</span><span>Limit ₹10,00,000</span></div>
+            <p class="budget-warning" id="budgetWarning" role="status"></p>
+          </div>
+          <button class="simulate-btn" id="simulateBtn" type="button"><span>Run simulation</span><b>↗</b></button>
+          <p class="button-footnote">Your choices update the neighborhood and scenario metrics.</p>
+        </aside>
+      </section>
+
+      <section class="results-section">
+        <div class="results-heading">
+          <div><p class="section-kicker">03 / SEE THE CONSEQUENCES</p><h2>Scenario outcomes</h2></div>
+          <div class="results-note"><span class="live-dot"></span><span id="resultCaption">Illustrative model · Balanced development</span></div>
+        </div>
+        <div class="metrics-grid">
+          <article class="metric-card heat-card">
+            <div class="metric-top"><span class="metric-symbol">☀</span><span class="metric-label">HEAT EXPOSURE</span></div>
+            <div class="metric-value" id="heatValue">—<small>/ 100</small></div>
+            <div class="metric-track"><span id="heatBar"></span></div>
+            <p id="heatHint">Run a simulation to see heat exposure.</p>
+          </article>
+          <article class="metric-card water-card">
+            <div class="metric-top"><span class="metric-symbol">≈</span><span class="metric-label">RUNOFF PRESSURE</span></div>
+            <div class="metric-value" id="runoffValue">—<small>%</small></div>
+            <div class="metric-track"><span id="runoffBar"></span></div>
+            <p id="runoffHint">Lower is better in this scenario model.</p>
+          </article>
+          <article class="metric-card shade-card">
+            <div class="metric-top"><span class="metric-symbol">♣</span><span class="metric-label">SHADE COVERAGE</span></div>
+            <div class="metric-value" id="shadeValue">—<small>%</small></div>
+            <div class="metric-track"><span id="shadeBar"></span></div>
+            <p id="shadeHint">Tree and shade-infrastructure coverage.</p>
+          </article>
+          <article class="metric-card resilience-card">
+            <div class="metric-top"><span class="metric-symbol">◈</span><span class="metric-label">RESILIENCE INDEX</span></div>
+            <div class="metric-value" id="resilienceValue">—<small>/ 100</small></div>
+            <div class="metric-track"><span id="resilienceBar"></span></div>
+            <p id="resilienceHint">Combined heat, water, and shade measure.</p>
+          </article>
+        </div>
+        <div class="outcome-footer">
+          <div><span class="footer-icon">⌂</span><span>Development capacity <strong id="developmentValue">80 / 100</strong></span></div>
+          <div><span class="footer-icon">₹</span><span>Adaptation cost <strong id="costValue">₹0</strong></span></div>
+          <div><span class="footer-icon">↗</span><span>Budget remaining <strong id="remainingValue">₹10,00,000</strong></span></div>
+        </div>
+      </section>
+
+      <section class="bottom-note">
+        <div class="note-mark">i</div>
+        <p><strong>How to read these results</strong><br>UrbanBalance uses a simplified, transparent scenario model to compare relative outcomes. Its values are based on stated project assumptions; they are not measured forecasts or engineering guarantees.</p>
+        <button class="text-button" id="assumptionsBtn" type="button">View assumptions ↗</button>
+      </section>
+
+      <footer><span>URBANBALANCE © 2026</span><span>SEE THE CONSEQUENCES BEFORE YOU BUILD.</span></footer>
+    </main>
+  </div>
+
+  <dialog id="assumptionsDialog" class="assumptions-dialog">
+    <div class="dialog-header"><div><p class="section-kicker">MODEL TRANSPARENCY</p><h2>What drives the simulation?</h2></div><button id="closeDialog" class="close-dialog" type="button" aria-label="Close">×</button></div>
+    <div class="assumptions-content">
+      <p><strong>Heat exposure</strong><br>Starts from a base heat index and adjusts for impervious area, preserved-tree benefits, and selected interventions.</p>
+      <p><strong>Runoff pressure</strong><br>Shows remaining runoff as a percentage of the unmitigated runoff for the selected development strategy. Lower is better.</p>
+      <p><strong>Shade coverage</strong><br>Estimates effective tree shade plus shade infrastructure, relative to the modeled pedestrian area.</p>
+      <p><strong>Resilience index</strong><br>Combines heat resilience (40%), water resilience (40%), and shade coverage (20%). Development capacity is shown separately.</p>
+      <p class="assumption-warning">All areas, costs, rainfall, benefits, and weighting values are scenario assumptions for exploration—not universal standards or real-world predictions.</p>
+    </div>
+  </dialog>
+  <script src="app.js"></script>
+</body>
+</html>
